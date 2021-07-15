@@ -1,21 +1,23 @@
-import React ,{useState} from 'react'
+import React, { useState } from 'react'
 import CartSummary from './CartSummary'
 import { Container, Menu } from 'semantic-ui-react'
 import SignedOut from './SignedOut'
 import SignedIn from './SignedIn'
 import { useHistory } from 'react-router'
+import { useSelector } from 'react-redux';
 
 export default function Navi() {
+  const { cartItems } = useSelector(state => state.cart)
   const [isAuthenticated, setisAuthenticated] = useState(true) //giris yapip yapilmadigi belirlenip signin mi signout mu gorunecek onu belirliyor
   const history = useHistory()
   function handleSignOut() {
     setisAuthenticated(false) //cikisyap degistirmis oluyoruz
     history.push("/")
     //usehistory :cikis yaptiktan sonra herhangi bir alt domainde kalmasini istemiyoruz. ana sayfaya yonlendiriyoruz
-  }  
+  }
   function handleSignIn() {
     setisAuthenticated(true) //giris yap degistirmis oluyoruz
-  } 
+  }
   return (
     <div>
       <Menu inverted fixed="top">
@@ -24,9 +26,9 @@ export default function Navi() {
           <Menu.Item name="messages" />
 
           <Menu.Menu position="right">
-            <CartSummary/>
-            {isAuthenticated?<SignedIn signOut={handleSignOut} bisey="1"/>
-            :<SignedOut signIn={handleSignIn}/>}  
+            {cartItems.length > 0 && <CartSummary />}
+            {isAuthenticated ? <SignedIn signOut={handleSignOut} bisey="1" />
+              : <SignedOut signIn={handleSignIn} />}
           </Menu.Menu>
         </Container>
       </Menu>
