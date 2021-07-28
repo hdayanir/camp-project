@@ -10,6 +10,7 @@ import "react-toastify/dist/ReactToastify.min.css"
 
 const store = configureStore()
 
+
 ReactDOM.render(
     <Provider store ={store}>
         <BrowserRouter>
